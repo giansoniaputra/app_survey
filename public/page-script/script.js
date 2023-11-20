@@ -351,6 +351,59 @@ $(document).ready(function () {
             }
         });
     }
+    // CROPPER
+    $("body").on("change", "#gambar", function (e) {
+        let files = e.target.files;
+        let done = function (url) {
+            image.src = url;
+            $("#modal-cropper").modal("show");
+        }
+
+        if (files && files.length > 0) {
+            file = files[0];
+
+            if (URL) {
+                done(URL.createObjectURL(file));
+            } else if (FileReader) {
+                reader = new FileReader();
+                reader.onload = function (e) {
+                    done(reader.result);
+                }
+                reader.readAsDataURL(file)
+            }
+        }
+
+    })
+
+    $("#modal-cropper").on('shown.bs.modal', function () {
+        cropper = new Cropper(image, {
+            aspectRatio: 1 / 1,
+            preview: '.preview'
+        })
+    }).on('hidden.bs.modal', function () {
+        cropper.destroy();
+        cropper = null;
+    })
+
+    $(".crop_photo").on('click', function () {
+        canvas = cropper.getCroppedCanvas({
+            width: 900,
+            height: 900,
+        })
+
+        canvas.toBlob(function (blob) {
+            const imageBase = document.querySelector("input[name='upload_gambar']");
+            const imgPre = document.querySelector("#image-gambar");
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(blob);
+            oFReader.onload = function (oFREvent) {
+                imgPre.src = oFREvent.target.result;
+                imageBase.value = oFREvent.target.result;
+            }
+        })
+
+        $("#modal-cropper").modal("hide")
+    })
 });
 
 // VANILA-----------------------------------------------

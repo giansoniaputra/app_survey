@@ -1,5 +1,20 @@
 @extends('layouts.main')
 @section('container')
+<style>
+    #image {
+        display: block;
+        max-width: 100%;
+    }
+
+    .preview {
+        overflow: hidden;
+        width: 160px;
+        height: 160px;
+        margin: 10px;
+        border: 1px solid red;
+    }
+
+</style>
 <div class="card mt-2" id="card-pertama" style="height: 80vh;">
     <div class="row mt-2 mx-1">
         <div class="col-sm-12">
@@ -43,7 +58,7 @@
                 </div>
                 <div class="mb-3" id="rules-gambar">
                     <label for="gambar">Upload Bukti Kunjungan</label>
-                    <input type="file" accept="image/*" capture="camera" id="gambar" class="form-control" onchange="previewImage()">
+                    <input type="file" accept="image/*" capture="camera" id="gambar" class="form-control">
                 </div>
                 <div class="mb-3 d-flex justify-content-center">
                     <img src="/upload.png" alt="" id="image-gambar" class="img-fluid" style="display:block" width="200vh">
@@ -116,5 +131,7 @@
         </div>
     </div>
 </form>
+@include('dashboard.modal-cropper')
+{{-- <script src="/node_modules/image-compressor/image-compressor.js" type="module"></script> --}}
 <script src="/page-script/script.js"></script>
 @endsection

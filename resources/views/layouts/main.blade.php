@@ -32,6 +32,9 @@
     {{-- SweetAlert --}}
     <link rel="stylesheet" href="/page-css/sweetalert2.min.css">
     <script src="/page-script/sweetalert2.all.min.js"></script>
+    {{-- CROPPER --}}
+    <link rel="stylesheet" href="/page-css/cropper.min.css">
+    <script src="/page-script/cropper.min.js"></script>
     {{-- LOADER --}}
     <style>
         .spinner {
