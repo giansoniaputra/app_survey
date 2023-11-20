@@ -24,8 +24,10 @@ $(document).ready(function () {
     // KETIKA TOMBOL SIMPAN PADA NAMA TOKO dan UPLOAD GAMBAR DI TEKAN
     $("#simpan-data-toko").on("click", function () {
         $("#spinner").html(loader)
+        $(this).attr("disabled", "true");
         if ($("#gambar").val() == "" || $("#nama_toko").val() == "") {
             $("#spinner").html("")
+            $(this).removeAttr("disabled");
             if ($("#gambar").val() == "") {
                 Swal.fire({
                     title: "Warning",
@@ -41,6 +43,7 @@ $(document).ready(function () {
                 });
             }
         } else {
+            $(this).removeAttr("disabled");
             //SCRIPT UNTUK SIMPAN NAMA TOKO DAN FOTO
             let formdata = $('form[id="form-identitas"]').serializeArray();
             let data = {}
@@ -54,6 +57,7 @@ $(document).ready(function () {
                 type: "POST",
                 dataType: 'json',
                 success: function (response) {
+                    $("#simpan-data-toko").removeAttr("disabled");
                     $("#spinner").html("")
                     $("input[name='survey_id']").val(response.current_id);
                     $("#card-kedua").addClass("d-none");
@@ -137,8 +141,10 @@ $(document).ready(function () {
     // MEMASUKAN DATA HARGA BARU
     $("#btn-action").on("click", "#simpan", function (event) {
         $("#spinner").html(loader)
+        $(this).attr("disabled", "true");
         if ($("#nama_barang").val() == "" || $("#harga_barang_lama").val() == "" || $("#harga_barang_baru").val() == "") {
             $("#spinner").html("")
+            $(this).removeAttr("disabled");
             if ($("#nama_barang").val() == "") {
                 $("#nama_barang").addClass("is-invalid");
                 event.preventDefault();
@@ -166,6 +172,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     $("#spinner").html("")
+                    $("#btn-action #simpan").removeAttr("disabled");
                     let kecamatan_id = $("input[name='kecamatan']").val();
                     // RENDER NAMA BARANG
                     $.ajax({
@@ -216,7 +223,9 @@ $(document).ready(function () {
     // MENGUPDATE DATA HARGA SURVEY
     $("#btn-action").on("click", "#update", function (event) {
         $("#spinner").html(loader)
+        $(this).attr("disabled", "true");
         if ($("#nama_barang").val() == "" || $("#harga_barang_lama").val() == "" || $("#harga_barang_baru").val() == "") {
+            $(this).removeAttr("disabled");
             $("#spinner").html("")
             if ($("#nama_barang").val() == "") {
                 $("#nama_barang").addClass("is-invalid");
@@ -244,6 +253,7 @@ $(document).ready(function () {
                 type: "POST",
                 dataType: 'json',
                 success: function (response) {
+                    $("#btn-action #update").removeAttr("disabled");
                     $("#spinner").html("")
                     let kecamatan_id = $("input[name='kecamatan']").val();
                     // RENDER NAMA BARANG
