@@ -191,17 +191,17 @@ $(document).ready(function () {
                     //LAKUKAN SESUATU KETIKA RESPON DIKEMBALIKAN
                     //KEMBALI LAGI KE HALAMAN UPLOAD PHOTO
                     $("#cari-barang").val("");
-                    $("input[name='upload_gambar']").val("");
-                    $("input[name='nama_toko']").val("");
-                    $("input[name='survey_id']").val("");
+                    // $("input[name='upload_gambar']").val("");
+                    // $("input[name='nama_toko']").val("");
+                    // $("input[name='survey_id']").val("");
                     $("input[name='barang']").val("");
                     $("input[name='nama_barang']").val("");
                     $("input[name='harga_barang_lama']").val("");
                     $("input[name='harga_barang_baru']").val("");
-                    $("#gambar").val("");
-                    $("#gambar").next(".custom-file-label").html("Pilih gambar");
-                    $("#image-gambar").attr("src", "/upload.png");
-                    $("#card-kedua").removeClass("d-none");
+                    // $("#gambar").val("");
+                    // $("#gambar").next(".custom-file-label").html("Pilih gambar");
+                    // $("#image-gambar").attr("src", "/upload.png");
+                    $("#card-kedua-setengah").removeClass("d-none");
                     $("#card-ketiga").addClass("d-none");
                     Swal.fire({
                         title: "Success",
@@ -270,17 +270,17 @@ $(document).ready(function () {
                     //LAKUKAN SESUATU KETIKA RESPON DIKEMBALIKAN
                     //KEMBALI LAGI KE HALAMAN UPLOAD PHOTO
                     $("#cari-barang").val("");
-                    $("input[name='upload_gambar']").val("");
-                    $("input[name='nama_toko']").val("");
-                    $("input[name='survey_id']").val("");
+                    // $("input[name='upload_gambar']").val("");
+                    // $("input[name='nama_toko']").val("");
+                    // $("input[name='survey_id']").val("");
                     $("input[name='barang']").val("");
                     $("input[name='nama_barang']").val("");
                     $("input[name='harga_barang_lama']").val("");
                     $("input[name='harga_barang_baru']").val("");
-                    $("#gambar").val("");
-                    $("#gambar").next(".custom-file-label").html("Pilih gambar");
-                    $("#image-gambar").attr("src", "/upload.png");
-                    $("#card-kedua").removeClass("d-none");
+                    // $("#gambar").val("");
+                    // $("#gambar").next(".custom-file-label").html("Pilih gambar");
+                    // $("#image-gambar").attr("src", "/upload.png");
+                    $("#card-kedua-setengah").removeClass("d-none");
                     $("#card-ketiga").addClass("d-none");
                     Swal.fire({
                         title: "Success",
