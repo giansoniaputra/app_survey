@@ -38,7 +38,7 @@ class MasterDataController extends Controller
             $base_Image = str_replace('data:image/png;base64,', '', $base_Image);
         }
         $base_Image = str_replace(' ', '+', $base_Image);
-        $name_Image = Str::random(40) . '.' . 'png';
+        $name_Image = Str::random(40) . '.' . 'jpg';
         File::put(storage_path() . '/app/public/bukti_foto/' . $name_Image, base64_decode($base_Image));
         $data = [
             'user_id' => auth()->user()->id,
