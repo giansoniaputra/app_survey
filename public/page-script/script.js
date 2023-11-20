@@ -43,7 +43,6 @@ $(document).ready(function () {
                 });
             }
         } else {
-            $(this).removeAttr("disabled");
             //SCRIPT UNTUK SIMPAN NAMA TOKO DAN FOTO
             let formdata = $('form[id="form-identitas"]').serializeArray();
             let data = {}
