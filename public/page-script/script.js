@@ -23,7 +23,9 @@ $(document).ready(function () {
 
     // KETIKA TOMBOL SIMPAN PADA NAMA TOKO dan UPLOAD GAMBAR DI TEKAN
     $("#simpan-data-toko").on("click", function () {
+        $("#spinner").html(loader)
         if ($("#gambar").val() == "" || $("#nama_toko").val() == "") {
+            $("#spinner").html("")
             if ($("#gambar").val() == "") {
                 Swal.fire({
                     title: "Warning",
@@ -52,6 +54,7 @@ $(document).ready(function () {
                 type: "POST",
                 dataType: 'json',
                 success: function (response) {
+                    $("#spinner").html("")
                     $("input[name='survey_id']").val(response.current_id);
                     $("#card-kedua").addClass("d-none");
                     $("#card-kedua-setengah").removeClass("d-none");
@@ -133,7 +136,9 @@ $(document).ready(function () {
 
     // MEMASUKAN DATA HARGA BARU
     $("#btn-action").on("click", "#simpan", function (event) {
+        $("#spinner").html(loader)
         if ($("#nama_barang").val() == "" || $("#harga_barang_lama").val() == "" || $("#harga_barang_baru").val() == "") {
+            $("#spinner").html("")
             if ($("#nama_barang").val() == "") {
                 $("#nama_barang").addClass("is-invalid");
                 event.preventDefault();
@@ -160,6 +165,7 @@ $(document).ready(function () {
                 type: "POST",
                 dataType: 'json',
                 success: function (response) {
+                    $("#spinner").html("")
                     let kecamatan_id = $("input[name='kecamatan']").val();
                     // RENDER NAMA BARANG
                     $.ajax({
@@ -209,7 +215,9 @@ $(document).ready(function () {
     })
     // MENGUPDATE DATA HARGA SURVEY
     $("#btn-action").on("click", "#update", function (event) {
+        $("#spinner").html(loader)
         if ($("#nama_barang").val() == "" || $("#harga_barang_lama").val() == "" || $("#harga_barang_baru").val() == "") {
+            $("#spinner").html("")
             if ($("#nama_barang").val() == "") {
                 $("#nama_barang").addClass("is-invalid");
                 event.preventDefault();
@@ -236,6 +244,7 @@ $(document).ready(function () {
                 type: "POST",
                 dataType: 'json',
                 success: function (response) {
+                    $("#spinner").html("")
                     let kecamatan_id = $("input[name='kecamatan']").val();
                     // RENDER NAMA BARANG
                     $.ajax({
