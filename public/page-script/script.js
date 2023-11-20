@@ -387,8 +387,8 @@ $(document).ready(function () {
 
     $(".crop_photo").on('click', function () {
         canvas = cropper.getCroppedCanvas({
-            width: 900,
-            height: 900,
+            width: 500,
+            height: 500,
         })
 
         canvas.toBlob(function (blob) {
