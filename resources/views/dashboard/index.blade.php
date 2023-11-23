@@ -76,6 +76,7 @@
         @csrf
         {{-- INPUT UNTUK ID DARI KECAMATAN DAN TOKO SERTA FOTO YANG TELAH DISIMPAN --}}
         <input type="hidden" name="survey_id">
+        <input type="hidden" name="wilayah_id">
         <input type="hidden" name="kecamatan">
         {{-- ./INPUT UNTUK ID DARI KECAMATAN DAN TOKO SERTA FOTO YANG TELAH DISIMPAN --}}
         <div class="row mt-2 mx-1">
@@ -131,6 +132,10 @@
         </div>
     </div>
 </form>
+<div class="card mt-2 text-center px-2 fixed-bottom container bg-transparent" id="btn-back">
+
+</div>
+
 @include('dashboard.modal-cropper')
 {{-- <script src="/node_modules/image-compressor/image-compressor.js" type="module"></script> --}}
 <script src="/page-script/script.js"></script>

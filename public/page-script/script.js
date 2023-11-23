@@ -4,7 +4,16 @@ $(document).ready(function () {
     $("#kecamatan").on("change", function () {
         $("input[name='kecamatan']").val($(this).val());
         let kecamatan_id = $("input[name='kecamatan']").val();
-        refreshBarang(kecamatan_id)
+        $.ajax({
+            data: { kecamatan_id: kecamatan_id },
+            url: "/getWilayahId",
+            type: "GET",
+            dataType: 'json',
+            success: function (response) {
+                $("input[name='wilayah_id']").val(response.wilayah_id);
+                refreshBarang($("input[name='wilayah_id']").val())
+            }
+        });
     })
     //KETIKA KOMODITAS DIPILIH
     $("#komoditas").on("click", ".pilih-komoditas", function () {
@@ -18,6 +27,7 @@ $(document).ready(function () {
             $("input[name='komoditas']").val($(this).attr("data-id"));
             $("#card-pertama").addClass("d-none");
             $("#card-kedua").removeClass("d-none");
+            $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-1"><i class="ri-arrow-left-line"></i>Kembali</button>`)
         }
     })
 
@@ -61,6 +71,7 @@ $(document).ready(function () {
                     $("input[name='survey_id']").val(response.current_id);
                     $("#card-kedua").addClass("d-none");
                     $("#card-kedua-setengah").removeClass("d-none");
+                    $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line" id="back"></i>Kembali</button>`)
                 }
             });
         }
@@ -91,15 +102,16 @@ $(document).ready(function () {
         $("input[name='barang']").val($(this).attr("data-id"))
         $("#card-kedua-setengah").addClass("d-none");
         $("#card-ketiga").removeClass("d-none");
+        $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-3"><i class="ri-arrow-left-line"></i>Kembali</button>`)
     })
 
     // KETIKA BARANG DIPILIH (YANG DI HIGHLIGHT)
     $("#barang").on("click", ".pilih-barang-update", function () {
-        let kecamatan_id = $("input[name='kecamatan']").val();
+        let wilayah_id = $("input[name='wilayah_id']").val();
         $.ajax({
             data: {
                 id: $(this).attr("data-id"),
-                kecamatan_id: kecamatan_id
+                wilayah_id: wilayah_id
             },
             url: "/cekCurrentHarga",
             type: "GET",
@@ -135,6 +147,7 @@ $(document).ready(function () {
         $("input[name='barang']").val($(this).attr("data-id"))
         $("#card-kedua-setengah").addClass("d-none");
         $("#card-ketiga").removeClass("d-none");
+        $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-3"><i class="ri-arrow-left-line"></i>Kembali</button>`)
     })
 
     // MEMASUKAN DATA HARGA BARU
@@ -172,7 +185,7 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#spinner").html("")
                     $("#btn-action #simpan").removeAttr("disabled");
-                    let kecamatan_id = $("input[name='kecamatan']").val();
+                    let wilayah_id = $("input[name='wilayah_id']").val();
                     // RENDER NAMA BARANG
                     $.ajax({
                         data: {
@@ -184,7 +197,7 @@ $(document).ready(function () {
                         success: function (response) {
                             $.ajax({
                                 data: {
-                                    kecamatan_id: kecamatan_id,
+                                    wilayah_id: wilayah_id,
                                     nama_barang: ""
                                 },
                                 url: "/highlightBarang",
@@ -208,6 +221,7 @@ $(document).ready(function () {
                     // $("#gambar").next(".custom-file-label").html("Pilih gambar");
                     // $("#image-gambar").attr("src", "/upload.png");
                     $("#card-kedua-setengah").removeClass("d-none");
+                    $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line"></i>Kembali</button>`)
                     $("#card-ketiga").addClass("d-none");
                     Swal.fire({
                         title: "Success",
@@ -254,7 +268,7 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#btn-action #update").removeAttr("disabled");
                     $("#spinner").html("")
-                    let kecamatan_id = $("input[name='kecamatan']").val();
+                    let wilayah_id = $("input[name='wilayah_id']").val();
                     // RENDER NAMA BARANG
                     $.ajax({
                         data: {
@@ -266,7 +280,7 @@ $(document).ready(function () {
                         success: function (response) {
                             $.ajax({
                                 data: {
-                                    kecamatan_id: kecamatan_id,
+                                    wilayah_id: wilayah_id,
                                     nama_barang: ""
                                 },
                                 url: "/highlightBarang",
@@ -290,6 +304,7 @@ $(document).ready(function () {
                     // $("#gambar").next(".custom-file-label").html("Pilih gambar");
                     // $("#image-gambar").attr("src", "/upload.png");
                     $("#card-kedua-setengah").removeClass("d-none");
+                    $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line"></i>Kembali</button>`)
                     $("#card-ketiga").addClass("d-none");
                     Swal.fire({
                         title: "Success",
@@ -315,7 +330,7 @@ $(document).ready(function () {
 
     // PENCARIAN BARANG
     $("#cari-barang").on('keyup', function () {
-        let kecamatan_id = $("input[name='kecamatan']").val();
+        let wilayah_id = $("input[name='wilayah_id']").val();
         $.ajax({
             data: { nama_barang: $(this).val() },
             url: "/cariBarang",
@@ -325,7 +340,7 @@ $(document).ready(function () {
                 // RENDER NAMA BARANG
                 $.ajax({
                     data: {
-                        kecamatan_id: kecamatan_id,
+                        wilayah_id: wilayah_id,
                         nama_barang: $("#cari-barang").val()
                     },
                     url: "/highlightBarang",
@@ -349,7 +364,7 @@ $(document).ready(function () {
             success: function (response) {
                 $.ajax({
                     data: {
-                        kecamatan_id: id,
+                        wilayah_id: id,
                         nama_barang: ""
                     },
                     url: "/highlightBarang",
@@ -413,7 +428,34 @@ $(document).ready(function () {
 
         $("#modal-cropper").modal("hide")
     })
+    // NAVIGASI
+    $("#btn-back").on("click", ".back-1", function () {
+        $(this).remove();
+        $("#card-pertama").removeClass("d-none");
+        $("#card-kedua").addClass("d-none");
+    })
+    $("#btn-back").on("click", ".back-2", function () {
+        $("#spinner").html(loader);
+        $.ajax({
+            data: { id: $("input[name='survey_id']").val() },
+            url: "/resetHeadSurvey",
+            type: "GET",
+            dataType: 'json',
+            success: function (response) {
+                $("#spinner").html("");
+            }
+        });
+        $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-1"><i class="ri-arrow-left-line"></i>Kembali</button>`)
+        $("#card-kedua").removeClass("d-none");
+        $("#card-kedua-setengah").addClass("d-none");
+    })
+    $("#btn-back").on("click", ".back-3", function () {
+        $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line"></i>Kembali</button>`)
+        $("#card-kedua-setengah").removeClass("d-none");
+        $("#card-ketiga").addClass("d-none");
+    })
 });
+//AKHIR JQUERY------------------------------------------
 
 // VANILA-----------------------------------------------
 function hanyaNomor(evt) {

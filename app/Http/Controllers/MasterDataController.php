@@ -11,6 +11,7 @@ use App\Models\DetailSurvey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class MasterDataController extends Controller
 {
@@ -53,6 +54,12 @@ class MasterDataController extends Controller
         // return response()->json(['current_id' => 1]);
     }
 
+    public function get_wilayah_id(Request $request)
+    {
+        $cek = Kecamatan::where('id', '=', $request->kecamatan_id)->first();
+        return response()->json(['wilayah_id' => $cek->wilayah_id]);
+    }
+
     public function cek_harga_lama(Request $request)
     {
         $cek = Barang::where('id', $request->id)->first();
@@ -92,12 +99,14 @@ class MasterDataController extends Controller
     {
         $cek = DB::table('barang as a')
             ->join('detail_survey as b', 'a.id', '=', 'b.barang_id', 'left')
-            ->select('a.*', 'b.id as bid', 'b.kecamatan_id')
+            ->join('kecamatan as c', 'c.id', '=', 'b.kecamatan_id', 'left')
+            ->select('a.*', 'b.id as bid', 'b.kecamatan_id', 'c.wilayah_id')
             ->where('a.nama_barang', 'LIKE', '%' . $request->nama_barang . '%')
             ->get();
+        // return response()->json(['cek' => $cek]);
         $i = 1;
         foreach ($cek as $row) {
-            if ($row->kecamatan_id == $request->kecamatan_id) {
+            if ($row->wilayah_id == $request->wilayah_id) {
                 echo '
                 <button class="btn btn-primary btn-sm pilih-barang-update" type="button" data-id="' . $row->id . '">' . $i++ . ' ' . $row->nama_barang . '  </button>
                 ';
@@ -113,10 +122,22 @@ class MasterDataController extends Controller
     {
         $cek = DB::table('detail_survey as a')
             ->join('barang as b', 'a.barang_id', '=', 'b.id')
-            ->select('a.*', 'b.nama_barang')
+            ->join('kecamatan as c', 'c.id', '=', 'a.kecamatan_id')
+            ->select('a.*', 'b.nama_barang', 'c.wilayah_id')
             ->where('a.barang_id', $request->id)
-            ->where('a.kecamatan_id', $request->kecamatan_id)
+            ->where('c.wilayah_id', $request->wilayah_id)
             ->first();
         return response()->json(['success' => $cek]);
+    }
+
+    public function reset_head_survey(Request $request)
+    {
+        $cek = DetailSurvey::where('survey_id', $request->id)->first();
+        if ($cek) {
+            return response(['success' => 'oke']);
+        } else {
+            HeadSurvey::where('id', $request->id)->delete();
+            return response(['success' => 'oke']);
+        }
     }
 }

@@ -24,6 +24,8 @@ Route::get('/logout', [AuthController::class, 'logout']);
 // DASHBOARD
 Route::get('/home', [MasterDataController::class, 'dashboard'])->middleware('auth');
 Route::get('/dashboard', [MasterDataController::class, 'dashboard'])->middleware('auth');
+//MENGAMBIL WILAYAH ID
+Route::get('/getWilayahId', [MasterDataController::class, 'get_wilayah_id'])->middleware('auth');
 // PROSES SIMPAN HEAD SURVEY
 Route::post('/simpanHeadSurvey', [MasterDataController::class, 'simpan_head_survey'])->middleware('auth');
 //AMBIL DATA HARGA BARANG LAMA
@@ -36,5 +38,7 @@ Route::post('/simpanDetailSurvey', [MasterDataController::class, 'simpan_detail_
 Route::post('/updateDetailSurvey', [MasterDataController::class, 'update_detail_survey'])->middleware('auth');
 //CARI BARANG
 Route::get('/cariBarang', [MasterDataController::class, 'cari_barang'])->middleware('auth');
+//RESET HEAD SURVEY
+Route::get('/resetHeadSurvey', [MasterDataController::class, 'reset_head_survey'])->middleware('auth');
 //HIGHLIGHT BARANG
 Route::get('/highlightBarang', [MasterDataController::class, 'highlight_barang'])->middleware('auth');
