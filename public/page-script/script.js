@@ -304,7 +304,7 @@ $(document).ready(function () {
                     // $("#gambar").next(".custom-file-label").html("Pilih gambar");
                     // $("#image-gambar").attr("src", "/upload.png");
                     $("#card-kedua-setengah").removeClass("d-none");
-                    $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line"></i>Kembali</button>`)
+                    $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-4"><i class="ri-arrow-left-line"></i>Kembali</button>`)
                     $("#card-ketiga").addClass("d-none");
                     Swal.fire({
                         title: "Success",
@@ -453,6 +453,11 @@ $(document).ready(function () {
         $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line"></i>Kembali</button>`)
         $("#card-kedua-setengah").removeClass("d-none");
         $("#card-ketiga").addClass("d-none");
+    })
+    $("#btn-back").on("click", ".back-4", function () {
+        $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-1"><i class="ri-arrow-left-line"></i>Kembali</button>`)
+        $("#card-kedua").removeClass("d-none");
+        $("#card-kedua-setengah").addClass("d-none");
     })
 });
 //AKHIR JQUERY------------------------------------------
