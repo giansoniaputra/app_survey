@@ -11,7 +11,7 @@ class HeadSurvey extends Model
     protected $table = 'head_survey';
 
     protected $fillable = [
-        'user_id', 'komoditas_id', 'nama_toko', 'bukti_foto'
+        'user_id', 'komoditas_id', 'nama_toko', 'lat', 'long', 'bukti_foto'
     ];
 
     protected $casts = [

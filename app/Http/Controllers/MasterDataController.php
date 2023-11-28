@@ -45,6 +45,8 @@ class MasterDataController extends Controller
             'user_id' => auth()->user()->id,
             'komoditas_id' => $request->komoditas,
             'nama_toko' => $request->nama_toko,
+            'lat' => $request->lat,
+            'long' => $request->long,
             'bukti_foto' => $name_Image
         ];
         HeadSurvey::create($data);

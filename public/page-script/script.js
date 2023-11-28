@@ -54,26 +54,37 @@ $(document).ready(function () {
             }
         } else {
             //SCRIPT UNTUK SIMPAN NAMA TOKO DAN FOTO
-            let formdata = $('form[id="form-identitas"]').serializeArray();
-            let data = {}
-            $(formdata).each(function (index, obj) {
-                data[obj.name] = obj.value;
-            });
+            // let formdata = $('form[id="form-identitas"]').serializeArray();
+            // let data = {}
+            // $(formdata).each(function (index, obj) {
+            //     data[obj.name] = obj.value;
+            // });
             // console.log(formdata);
-            $.ajax({
-                data: $('form[id="form-identitas"]').serialize(),
-                url: "/simpanHeadSurvey",
-                type: "POST",
-                dataType: 'json',
-                success: function (response) {
-                    $("#simpan-data-toko").removeAttr("disabled");
-                    $("#spinner").html("")
-                    $("input[name='survey_id']").val(response.current_id);
-                    $("#card-kedua").addClass("d-none");
-                    $("#card-kedua-setengah").removeClass("d-none");
-                    $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line" id="back"></i>Kembali</button>`)
-                }
-            });
+            //LONGITUDE dan LATITUDE
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    let latitude = position.coords.latitude;
+                    let longitude = position.coords.longitude;
+                    let formData = $('form[id="form-identitas"]').serialize();
+                    formData += '&lat=' + latitude + '&long=' + longitude;
+                    $.ajax({
+                        data: formData,
+                        url: "/simpanHeadSurvey",
+                        type: "POST",
+                        dataType: 'json',
+                        success: function (response) {
+                            $("#simpan-data-toko").removeAttr("disabled");
+                            $("#spinner").html("")
+                            $("input[name='survey_id']").val(response.current_id);
+                            $("#card-kedua").addClass("d-none");
+                            $("#card-kedua-setengah").removeClass("d-none");
+                            $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-2"><i class="ri-arrow-left-line" id="back"></i>Kembali</button>`)
+                        }
+                    });
+                });
+            } else {
+                console.log("Lokasi anda tidak aktif atau browser anda tidak support fitur lokasi!");
+            }
         }
     })
 
@@ -463,6 +474,8 @@ $(document).ready(function () {
 //AKHIR JQUERY------------------------------------------
 
 // VANILA-----------------------------------------------
+
+
 function hanyaNomor(evt) {
     // Hanya izinkan input karakter numerik
     var charCode = (evt.which) ? evt.which : evt.keyCode;
