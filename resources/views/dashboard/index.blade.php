@@ -35,6 +35,7 @@
     </div>
     <div class="row mt-2 mx-1" style="overflow-y: auto;">
         <div class="col-sm-12 d-grid gap-2 mb-3" id="komoditas">
+            <input type="hidden" name="komoditas_id">
             @php
             $i = 1;
             @endphp

@@ -136,10 +136,10 @@ class MasterDataController extends Controller
     {
         $cek = DetailSurvey::where('survey_id', $request->id)->first();
         if ($cek) {
-            return response(['success' => 'oke']);
+            return response()->json(['success' => 'oke']);
         } else {
             HeadSurvey::where('id', $request->id)->delete();
-            return response(['success' => 'oke']);
+            return response()->json(['success' => 'oke']);
         }
     }
 }

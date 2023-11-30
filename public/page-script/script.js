@@ -3,17 +3,6 @@ $(document).ready(function () {
     // KETIKA KECAMATAN DIPILIH
     $("#kecamatan").on("change", function () {
         $("input[name='kecamatan']").val($(this).val());
-        let kecamatan_id = $("input[name='kecamatan']").val();
-        $.ajax({
-            data: { kecamatan_id: kecamatan_id },
-            url: "/getWilayahId",
-            type: "GET",
-            dataType: 'json',
-            success: function (response) {
-                $("input[name='wilayah_id']").val(response.wilayah_id);
-                refreshBarang($("input[name='wilayah_id']").val())
-            }
-        });
     })
     //KETIKA KOMODITAS DIPILIH
     $("#komoditas").on("click", ".pilih-komoditas", function () {
@@ -24,10 +13,25 @@ $(document).ready(function () {
                 icon: "warning"
             });
         } else {
-            $("input[name='komoditas']").val($(this).attr("data-id"));
-            $("#card-pertama").addClass("d-none");
-            $("#card-kedua").removeClass("d-none");
-            $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-1"><i class="ri-arrow-left-line"></i>Kembali</button>`)
+            let kecamatan_id = $("input[name='kecamatan']").val();
+            let komoditas_id = $(this).attr("data-id");
+            $('input[name="komoditas_id"]').val(komoditas_id);
+            $("input[name='komoditas']").val(komoditas_id);
+            $.ajax({
+                data: {
+                    kecamatan_id: kecamatan_id
+                },
+                url: "/getWilayahId",
+                type: "GET",
+                dataType: 'json',
+                success: function (response) {
+                    $("input[name='wilayah_id']").val(response.wilayah_id);
+                    refreshBarang($("input[name='wilayah_id']").val(), komoditas_id)
+                    $("#card-pertama").addClass("d-none");
+                    $("#card-kedua").removeClass("d-none");
+                    $("#btn-back").html(`<button type="button" class="btn btn-info rounded-pill mx-3 back-1"><i class="ri-arrow-left-line"></i>Kembali</button>`)
+                }
+            });
         }
     })
 
@@ -197,6 +201,7 @@ $(document).ready(function () {
                     $("#spinner").html("")
                     $("#btn-action #simpan").removeAttr("disabled");
                     let wilayah_id = $("input[name='wilayah_id']").val();
+                    let komoditas_id = $("input[name='komoditas_id']").val()
                     // RENDER NAMA BARANG
                     $.ajax({
                         data: {
@@ -209,7 +214,8 @@ $(document).ready(function () {
                             $.ajax({
                                 data: {
                                     wilayah_id: wilayah_id,
-                                    nama_barang: ""
+                                    nama_barang: "",
+                                    komoditas_id: komoditas_id
                                 },
                                 url: "/highlightBarang",
                                 success: function (response2) {
@@ -281,6 +287,7 @@ $(document).ready(function () {
                     $("#spinner").html("")
                     let wilayah_id = $("input[name='wilayah_id']").val();
                     // RENDER NAMA BARANG
+                    let komoditas_id = $("input[name='komoditas_id']").val()
                     $.ajax({
                         data: {
                             nama_barang: "",
@@ -292,7 +299,8 @@ $(document).ready(function () {
                             $.ajax({
                                 data: {
                                     wilayah_id: wilayah_id,
-                                    nama_barang: ""
+                                    nama_barang: "",
+                                    komoditas_id: komoditas_id
                                 },
                                 url: "/highlightBarang",
                                 success: function (response2) {
@@ -342,6 +350,7 @@ $(document).ready(function () {
     // PENCARIAN BARANG
     $("#cari-barang").on('keyup', function () {
         let wilayah_id = $("input[name='wilayah_id']").val();
+        let komoditas_id = $("input[name='komoditas_id']").val()
         $.ajax({
             data: { nama_barang: $(this).val() },
             url: "/cariBarang",
@@ -352,7 +361,8 @@ $(document).ready(function () {
                 $.ajax({
                     data: {
                         wilayah_id: wilayah_id,
-                        nama_barang: $("#cari-barang").val()
+                        nama_barang: $("#cari-barang").val(),
+                        komoditas_id: komoditas_id
                     },
                     url: "/highlightBarang",
                     success: function (response2) {
@@ -363,7 +373,7 @@ $(document).ready(function () {
         });
     })
 
-    function refreshBarang(id) {
+    function refreshBarang(id, komoditas_id) {
         // RENDER NAMA BARANG
         $.ajax({
             data: {
@@ -376,7 +386,8 @@ $(document).ready(function () {
                 $.ajax({
                     data: {
                         wilayah_id: id,
-                        nama_barang: ""
+                        nama_barang: "",
+                        komoditas_id: komoditas_id
                     },
                     url: "/highlightBarang",
                     success: function (response2) {
@@ -387,11 +398,54 @@ $(document).ready(function () {
         });
     }
     // CROPPER
+    // $("body").on("change", "#gambar", function (e) {
+    //     let files = e.target.files;
+
+    //     if (files && files.length > 0) {
+    //         file = files[0];
+
+    //         if (URL) {
+    //             // Langsung panggil fungsi crop
+    //             cropImage(URL.createObjectURL(file));
+    //         } else if (FileReader) {
+    //             reader = new FileReader();
+    //             reader.onload = function (e) {
+    //                 // Langsung panggil fungsi crop
+    //                 cropImage(reader.result);
+    //             }
+    //             reader.readAsDataURL(file);
+    //         }
+    //     }
+    // });
+
+    // // Fungsi untuk melakukan cropping langsung
+    // function cropImage(url) {
+    //     let image = new Image();
+    //     image.src = url;
+
+    //     image.onload = function () {
+    //         canvas = cropper.getCroppedCanvas({
+    //             width: 500,
+    //             height: 500,
+    //         })
+
+    //         canvas.toBlob(function (blob) {
+    //             const imageBase = document.querySelector("input[name='upload_gambar']");
+    //             const imgPre = document.querySelector("#image-gambar");
+    //             const oFReader = new FileReader();
+    //             oFReader.readAsDataURL(blob);
+    //             oFReader.onload = function (oFREvent) {
+    //                 imgPre.src = oFREvent.target.result;
+    //                 imageBase.value = oFREvent.target.result;
+    //             }
+    //         })
+    //     };
+    // }
     $("body").on("change", "#gambar", function (e) {
         let files = e.target.files;
         let done = function (url) {
             image.src = url;
-            $("#modal-cropper").modal("show");
+            // $("#modal-cropper").modal("show");
         }
 
         if (files && files.length > 0) {
@@ -407,6 +461,28 @@ $(document).ready(function () {
                 reader.readAsDataURL(file)
             }
         }
+        cropper = new Cropper(image, {
+            aspectRatio: 2 / 3,
+            preview: '.preview'
+        })
+        setTimeout(() => {
+            canvas = cropper.getCroppedCanvas({
+                width: 500,
+                height: 500,
+            })
+
+            canvas.toBlob(function (blob) {
+                const imageBase = document.querySelector("input[name='upload_gambar']");
+                const imgPre = document.querySelector("#image-gambar");
+                const oFReader = new FileReader();
+                oFReader.readAsDataURL(blob);
+                oFReader.onload = function (oFREvent) {
+                    imgPre.src = oFREvent.target.result;
+                    imageBase.value = oFREvent.target.result;
+                }
+            })
+        }, 1000)
+
 
     })
 
@@ -442,6 +518,7 @@ $(document).ready(function () {
     // NAVIGASI
     $("#btn-back").on("click", ".back-1", function () {
         $(this).remove();
+        $('input[name="komoditas_id"]').val("")
         $("#card-pertama").removeClass("d-none");
         $("#card-kedua").addClass("d-none");
     })
