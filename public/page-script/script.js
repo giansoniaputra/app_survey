@@ -4,6 +4,28 @@ $(document).ready(function () {
     $("#kecamatan").on("change", function () {
         $("input[name='kecamatan']").val($(this).val());
     })
+    //PENCARIAN KOMODITAS
+    $("#cari-komoditas").on("keyup", function () {
+        // RENDER KOMODITAS BARANG
+        $.ajax({
+            data: {
+                komoditas: $(this).val(),
+            },
+            url: "/cariKomoditas",
+            type: "GET",
+            dataType: 'json',
+            success: function (response) {
+                // console.log(response.data);
+                let i = 1;
+                let render = response.data.map((a) => {
+                    return `
+                    <button class="btn btn-success btn-sm pilih-komoditas" type="button" data-id="${a.id}">${i++}. ${a.komoditas}</button>
+                    `
+                })
+                $(".render_komoditas").html(render)
+            }
+        });
+    })
     //KETIKA KOMODITAS DIPILIH
     $("#komoditas").on("click", ".pilih-komoditas", function () {
         if ($("#kecamatan").val() == null) {

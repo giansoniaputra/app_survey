@@ -33,15 +33,24 @@
             <label>Pilih Komoditas</label>
         </div>
     </div>
+    <div class="row mt-2 mx-1">
+        <div class="col-sm-12">
+            <div class="mb-3">
+                <input type="text" id="cari-komoditas" class="form-control" placeholder="Cari Komoditas">
+            </div>
+        </div>
+    </div>
     <div class="row mt-2 mx-1" style="overflow-y: auto;">
         <div class="col-sm-12 d-grid gap-2 mb-3" id="komoditas">
             <input type="hidden" name="komoditas_id">
             @php
             $i = 1;
             @endphp
-            @foreach ($komoditas as $row)
-            <button class="btn btn-success btn-sm pilih-komoditas" type="button" data-id="{{ $row->id }}">{{ $i++ . '. ' . $row->komoditas }}</button>
-            @endforeach
+            <div class="render_komoditas d-grid gap-2 mb-3">
+                @foreach ($komoditas as $row)
+                <button class="btn btn-success btn-sm pilih-komoditas" type="button" data-id="{{ $row->id }}">{{ $i++ . '. ' . $row->komoditas }}</button>
+                @endforeach
+            </div>
         </div>
     </div>
 </div>

@@ -97,6 +97,13 @@ class MasterDataController extends Controller
             ->get();
         return response()->json(['data' => $results]);
     }
+    public function cari_komoditas(Request $request)
+    {
+        $results = DB::table('komoditas')
+            ->where('komoditas', 'LIKE', '%' . $request->komoditas . '%')
+            ->get();
+        return response()->json(['data' => $results]);
+    }
     public function highlight_barang(Request $request)
     {
         $cek = DB::table('barang as a')
@@ -104,6 +111,7 @@ class MasterDataController extends Controller
             ->join('kecamatan as c', 'c.id', '=', 'b.kecamatan_id', 'left')
             ->select('a.*', 'b.id as bid', 'b.kecamatan_id', 'c.wilayah_id')
             ->where('a.nama_barang', 'LIKE', '%' . $request->nama_barang . '%')
+            ->where('a.komoditas_id', $request->komoditas_id)
             ->get();
         // return response()->json(['cek' => $cek]);
         $i = 1;
@@ -136,10 +144,10 @@ class MasterDataController extends Controller
     {
         $cek = DetailSurvey::where('survey_id', $request->id)->first();
         if ($cek) {
-            return response()->json(['success' => 'oke']);
+            return response(['success' => 'oke']);
         } else {
             HeadSurvey::where('id', $request->id)->delete();
-            return response()->json(['success' => 'oke']);
+            return response(['success' => 'oke']);
         }
     }
 }

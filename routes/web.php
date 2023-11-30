@@ -38,6 +38,8 @@ Route::post('/simpanDetailSurvey', [MasterDataController::class, 'simpan_detail_
 Route::post('/updateDetailSurvey', [MasterDataController::class, 'update_detail_survey'])->middleware('auth');
 //CARI BARANG
 Route::get('/cariBarang', [MasterDataController::class, 'cari_barang'])->middleware('auth');
+//CARI KOMODITAS
+Route::get('/cariKomoditas', [MasterDataController::class, 'cari_komoditas'])->middleware('auth');
 //RESET HEAD SURVEY
 Route::get('/resetHeadSurvey', [MasterDataController::class, 'reset_head_survey'])->middleware('auth');
 //HIGHLIGHT BARANG
