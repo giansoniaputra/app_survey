@@ -465,6 +465,7 @@ $(document).ready(function () {
             aspectRatio: 2 / 3,
             preview: '.preview'
         })
+        $("#spinner").html(loader)
         setTimeout(() => {
             canvas = cropper.getCroppedCanvas({
                 width: 500,
@@ -477,6 +478,7 @@ $(document).ready(function () {
                 const oFReader = new FileReader();
                 oFReader.readAsDataURL(blob);
                 oFReader.onload = function (oFREvent) {
+                    $("#spinner").html("")
                     imgPre.src = oFREvent.target.result;
                     imageBase.value = oFREvent.target.result;
                 }
